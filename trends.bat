@@ -1,0 +1,1 @@
+﻿python "python scripts/trends.py"
