@@ -14,7 +14,7 @@ boolean nytimesCurr, endOfNews;
 
 void setup() {
   open(new String[] {
-    "cmd", "/c", "start", "/w", "C:/Projects/ITP/ICM_Final/nytimes.bat"
+    "cmd", "/c", "C:/Projects/ITP/ICM_Final/nytimes.bat"
   }
   );
   delay(1000);
@@ -41,24 +41,25 @@ void draw() {
     if (!nytimesCurr) {
       if (frameCount % 60 == 0 && counter < currentObjs.size()) { 
         counter++;
-      } else if(currentObjs.size() == counter){
+      } else if (currentObjs.size() == counter) {
         endOfNews = true;
       }
     }
   }
-  if(endOfNews){
+  if (endOfNews) {
     open(new String[] {
-        "cmd", "/c", "start", "/w", "C:/Projects/ITP/ICM_Final/facebook.bat"
-      });
+      "cmd", "/c", "start", "/w", "C:/Projects/ITP/ICM_Final/facebook.bat"
+    }
+    );
     textFile = loadStrings("facebook.txt");
-    for(int i=0; i<textFile.length; i++){
+    for (int i=0; i<textFile.length; i++) {
       fbs.add(new Facebook(textFile[i], i));
     }
     counter = 1;
     currentObjs = fbs;    
     endOfNews = false;
     background(204);
-  }  
+  }
 }
 
 void keyPressed() {
@@ -72,13 +73,18 @@ void mouseClicked() {
   for (NYTime nyTime: nyTimes) {
     // RUN ALL BATCH FILES
     if (nyTime.mouseOver(mouseX, mouseY)) {
-      saveStrings("keywords.txt", nyTime.keywords);
-      open(new String[] {
-        "cmd", "/c", "start", "/w", "C:/Projects/ITP/ICM_Final/twitter.bat"
+      try {
+        saveStrings("keywords.txt", nyTime.keywords);
+        Process p = Runtime.getRuntime().exec("cmd /c C:/Projects/ITP/ICM_Final/twitter.bat"
+          );
+        p.waitFor();        
+      } 
+      catch (Exception err) {
+        err.printStackTrace();
       }
-      );
+
       textFile = loadStrings("tweets.txt");
-      for (int i=0; i<20; i++) {
+      for (int i=0; i<textFile.length-1; i++) {
         tweets.add(new Tweet(textFile[i], i));
       }
       counter = 1;

@@ -23,12 +23,13 @@ try:
 
     txt_file = open("data/tweets.txt", "w")
 
-    for tweet in ts.search_tweets_iterable(tso):
+    for i,tweet in enumerate(ts.search_tweets_iterable(tso)):
         tweet_str = ""
         tweet_str += tweet['user']['name'].encode('utf-8') + "~"
         tweet_str += tweet['user']['screen_name'].encode('utf-8') + "~"
         tweet_str += tweet['text'].encode('utf-8') + "~"
         txt_file.write(tweet_str[:-1] + "\n")
+        if i == 15: break
 
     txt_file.close()
 
