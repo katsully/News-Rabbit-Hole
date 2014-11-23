@@ -1,10 +1,21 @@
 from TwitterSearch import *
 
 file_keywords = open("keywords.txt")
+file_keys = open("C:/Users/Kat Sullivan/Documents/API_keys/twitter_oauth.txt")
 new_keywords = []
 
 for line in file_keywords:
     new_keywords.append(line.rstrip())
+
+# get all keys
+keys = file_keys.read()
+keys_decoded = keys.decode("utf-8-sig")
+keys = keys_decoded.encode("utf-8")
+keys = keys.rstrip().split('\n')
+
+# assign keys for TwitterSearch
+
+
 
 try:
     tso = TwitterSearchOrder() # create a TwitterSearchOrder object
@@ -15,11 +26,13 @@ try:
 
     # it's about time to create a TwitterSearch object with our secret tokens
     ts = TwitterSearch(
-        consumer_key = '7Uifmz2gkHF8RcOcMtItTJRoF',
-        consumer_secret = 'YmcL95Yy15zvwAfGVaCrbGaUkcWo6wv0OT9RXCOxWfoHwuY1RT',
-        access_token = '382795211-QdEIUrwt5d30XSNbbVOqhr7pcC7UvUr96xWJNqe2',
-        access_token_secret = 'O0NQuaQPJo715naBUf5RVQKUfpFTiIyr1KmLSqE6CYQSS'
+        consumer_key = keys[0],
+        consumer_secret = keys[1],
+        access_token = keys[2],
+        access_token_secret = keys[3]
      )
+
+    file_keys.close()
 
     txt_file = open("data/tweets.txt", "w")
 

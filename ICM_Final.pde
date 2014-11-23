@@ -47,10 +47,14 @@ void draw() {
     }
   }
   if (endOfNews) {
-    open(new String[] {
-      "cmd", "/c", "start", "/w", "C:/Projects/ITP/ICM_Final/facebook.bat"
+    try {
+      Process p = Runtime.getRuntime().exec("cmd /c C:/Projects/ITP/ICM_Final/facebook.bat"    
+        );
+      p.waitFor();
+    } 
+    catch (Exception err) {
+      err.printStackTrace();
     }
-    );
     textFile = loadStrings("facebook.txt");
     for (int i=0; i<textFile.length; i++) {
       fbs.add(new Facebook(textFile[i], i));
@@ -77,7 +81,7 @@ void mouseClicked() {
         saveStrings("keywords.txt", nyTime.keywords);
         Process p = Runtime.getRuntime().exec("cmd /c C:/Projects/ITP/ICM_Final/twitter.bat"
           );
-        p.waitFor();        
+        p.waitFor();
       } 
       catch (Exception err) {
         err.printStackTrace();

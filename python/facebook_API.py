@@ -11,14 +11,17 @@ new_keywords = []
 
 for line in file_keywords:
     new_keywords.append(line.rstrip())
+file_key = open("C:/Users/Kat Sullivan/Documents/API_keys/facebook_key.txt")
 
-token = 'CAACEdEose0cBAJ8izKvkQOe3rUgFEOCH9NAS8RQbsmOSr8QQNJDOcxxAgi0TzEBcwCdSjcRsU28rrHULjZBt04w74PhPUWlgdiKGpzZAgyhhXxQzORQitWv8ljREODhApEhuOKEiLW6a0C8tlqbF3upV1zO6h0dlzhDSZCl94sHXhs3A6ikDIRLAiJezSwSxB5k5TKpvQ4c6sdidt6J'
+token = file_key.readline()
+
+file_key.close()
 
 # Create a connection to the Graph API with your access token
 graph = facebook.GraphAPI(token)
 txt_file = open("data/facebook.txt", "w")
 
-json_data = graph.request("search", {'q': new_keywords[:1], 'type': 'post', 'from': 'User'})
+json_data = graph.request("search", {'q': new_keywords[:2], 'type': 'post', 'from': 'User'})
 
 nums = range(1,100)
 
