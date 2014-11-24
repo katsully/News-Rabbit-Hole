@@ -43,11 +43,13 @@ void draw() {
     boxOver();
   }
   if (currentObjs.size() != 0) {
+    
     for (int i=0; i<counter; i++) {
       currentObjs.get(i).display();
     }
     if (!nytimesCurr) {
       if (frameCount % 60 == 0 && counter < currentObjs.size()) { 
+        println(counter);
         counter++;
       } else if (currentObjs.size() == counter) {
         endOfNews = true;
@@ -95,12 +97,12 @@ void mouseClicked() {
       }
 
       textFile = loadStrings("tweets.txt");
-      int counter = 12;
+      int totalTweets = 12;
       if (textFile.length-1 < 12) {
-        counter = textFile.length-1;
+        totalTweets = textFile.length-1;
       }
       int tweetCount = 0;
-      for (int i=0; i<counter; i++) {
+      for (int i=0; i<totalTweets; i++) {
         if (textFile[i].equals("")) {
           continue;
         } 
@@ -114,6 +116,8 @@ void mouseClicked() {
       background(64, 153, 255);
       currentObjs = tweets;
       nytimesCurr = false;  
+      println("Twitter counter: " + counter);
+      println(currentObjs.size());
       break;
     }
   }

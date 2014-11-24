@@ -33,7 +33,7 @@ for i,post in enumerate(json_data['data']):
 		pic_file.write(urllib.urlopen(post['picture']).read())
 		pic_file.close()
 	if 'caption' in post: status_str += post['caption'] + "~"
-	if 'description' in post: status_str += post['description'] + "~"
+	#if 'description' in post: status_str += post['description'] + "~"
 	if 'link' in post: status_str += post['link'] + "~"
 	if 'message' in post: status_str += post['message'] + "~"
 	txt_file.write(status_str[:-1] + "\n")
