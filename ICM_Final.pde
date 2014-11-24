@@ -42,33 +42,32 @@ void setup() {
 }
 
 void draw() {
-  if (nytimesCurr) {
-    background(255);
-    image(nytimesHeading, 450, 25);
-    boxOver();
-  } else if (pickSource) {    
+  if (pickSource) {
     sourceScreen();
     selectSource();
-  }
-  if (!pickSource && currentObjs.size() != 0) {
-    if (!nytimesCurr) {    
-      background(64, 153, 255);
-    }
-    for (int i=0; i<counter; i++) {
-      currentObjs.get(i).display();
-    }
-    if (!nytimesCurr) {
-      if (frameCount % 60 == 0 && counter < currentObjs.size()) { 
-        counter++;
-      } else if (currentObjs.size() == counter) {
-        endOfNews = true;
-        drawBoxes();
+  } else {
+    if (nytimesCurr) {
+      background(255);
+      image(nytimesHeading, 450, 25);
+      boxOver();
+    } 
+    if (!pickSource && currentObjs.size() != 0) {
+      if (!nytimesCurr) {    
+        background(64, 153, 255);
+      }
+      for (int i=0; i<counter; i++) {
+        currentObjs.get(i).display();
+      }
+      if (!nytimesCurr) {
+        if (frameCount % 60 == 0 && counter < currentObjs.size()) { 
+          counter++;
+        } else if (currentObjs.size() == counter) {
+          endOfNews = true;
+          drawBoxes();
+        }
       }
     }
   }
-  //if (endOfNews) {
-
-  //}
 }
 
 void mouseClicked() {
@@ -84,9 +83,13 @@ void mouseClicked() {
       }
     }
   } else if (endOfNews) {
-    if(mouseX >= 20 && mouseX <= 420 && mouseY >= 600 && mouseY <= 700){
+    if (mouseX >= 20 && mouseX <= 420 && mouseY >= 600 && mouseY <= 700) {
       pickSource = true;
       background(255);
+    } else if(mouseX >=450 && mouseX <= 850 && mouseY >= 600 & mouseY <= 700){
+      nytimesCurr = true;
+      background(255);
+      currentObjs = nyTimes;
     }
   }
 }
@@ -104,7 +107,6 @@ void boxOver() {
 
 void twitter() {
   try {
-
     Process p = Runtime.getRuntime().exec("cmd /c C:/Projects/ITP/ICM_Final/twitter.bat"
       );
     println("called it");
@@ -159,6 +161,7 @@ void facebook() {
 
 // Display the screen where a user selects a source
 void sourceScreen() {
+  text("Pick a Source", 100, 50);
   image(facebook, 20, 100);
   image(twitter, 20+facebook.width, 100);
 }
