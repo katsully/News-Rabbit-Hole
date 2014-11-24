@@ -1,10 +1,25 @@
 from nytimesarticle import articleAPI
 import datetime
+import sys
 
 date = datetime.datetime.now()
 date_str = date.strftime('%Y%m%d')
 
-api = articleAPI('8507eaad79faa9ac49204db270a8e0e3:13:70195569')
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
+file_keywords = open("keywords.txt")
+new_keywords = []
+
+for line in file_keywords:
+    new_keywords.append(line.rstrip())
+file_key = open("API_keys/ny_times_key.txt")
+
+token = file_key.readline()
+
+file_key.close()
+
+api = articleAPI(token)
 
 articles = api.search(fq = {'news_desk':'National', 'source':['Reuters','AP', 'The New York Times']}, begin_date = date_str, facet_field = ['source','day_of_week'], facet_filter = True)
 all_articles = articles['response']['docs']

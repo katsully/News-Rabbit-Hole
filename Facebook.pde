@@ -20,10 +20,7 @@ class Facebook extends NewsBlur {
       info[i] = data[i];
     }    
     loc = new PVector(20, location * 120 + 30);
-    // println(info[1]);
-    // if (info[1].contains(".jpg")) {
-    //   pic = loadImage(info[1]);
-    // }
+    
     File file = new File(dataPath("image" + location + ".jpg"));
 
     if (file.exists()) {
@@ -33,7 +30,6 @@ class Facebook extends NewsBlur {
 
 
   void display() {
-    //textFont(font, 14);
     fill(0);
     String status = info[0] + "\n" + info[1] + "\n" + info[2] + "\n" + info[3];
     if (pic != null) {
