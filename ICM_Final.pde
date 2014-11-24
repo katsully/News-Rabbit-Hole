@@ -61,39 +61,18 @@ void draw() {
       if (frameCount % 60 == 0 && counter < currentObjs.size()) { 
         counter++;
       } else if (currentObjs.size() == counter) {
+        endOfNews = true;
         drawBoxes();
-        noLoop();
       }
     }
   }
-  if (endOfNews) {
-    // try {
-    //   Process p = Runtime.getRuntime().exec("cmd /c C:/Projects/ITP/ICM_Final/facebook.bat"    
-    //     );
-    //   p.waitFor();
-    // } 
-    // catch (Exception err) {
-    //   err.printStackTrace();
-    // }
-    // textFile = loadStrings("facebook.txt");
-    // for (int i=0; i<textFile.length; i++) {
-    //   fbs.add(new Facebook(textFile[i], i));
-    // }
-    counter = 1;
-    //currentObjs = fbs;   
+  //if (endOfNews) {
 
-    endOfNews = false;
-    background(204);
-  }
-}
-
-void keyPressed() {
-  if (key == 't') {
-    open("twitter.bat");
-  }
+  //}
 }
 
 void mouseClicked() {
+  println("end of news: " + endOfNews); 
   if (nytimesCurr) {
     for (NYTime nyTime: nyTimes) {
       if (nyTime.mouseOver(mouseX, mouseY)) {
@@ -104,10 +83,11 @@ void mouseClicked() {
         break;
       }
     }
-  } else if(endOfNews){
-    pickSource = true;
-    background(255);
-    loop();
+  } else if (endOfNews) {
+    if(mouseX >= 20 && mouseX <= 420 && mouseY >= 600 && mouseY <= 700){
+      pickSource = true;
+      background(255);
+    }
   }
 }
 
@@ -156,6 +136,26 @@ void twitter() {
   currentObjs = tweets;
 }
 
+void facebook() {
+  try {
+    Process p = Runtime.getRuntime().exec("cmd /c C:/Projects/ITP/ICM_Final/facebook.bat"    
+      );
+    p.waitFor();
+  } 
+  catch (Exception err) {
+    err.printStackTrace();
+  }
+  textFile = loadStrings("facebook.txt");
+  for (int i=0; i<textFile.length; i++) {
+    fbs.add(new Facebook(textFile[i], i));
+  }
+  counter = 1;
+  currentObjs = fbs;   
+
+  endOfNews = false;
+  background(204);
+}
+
 
 // Display the screen where a user selects a source
 void sourceScreen() {
@@ -176,11 +176,13 @@ void selectSource() {
   }
 }
 
-void drawBoxes(){
-  fill(155,89,187);
+void drawBoxes() {
+  fill(155, 89, 187);
   noStroke();
-  rect(20,600,400,100);
+  rect(20, 600, 400, 100);
+  rect(450, 600, 400, 100);
   fill(255);
   textSize(50);
-  text("Pick New Source", 30, 675); 
+  text("Pick New Source", 30, 675);
+  text("Pick New Story", 480, 675);
 }
