@@ -4,6 +4,7 @@
 import java.util.Collections;
 
 String[] textFile;
+PImage nytimesHeading;
 ArrayList<NYTime> nyTimes = new ArrayList<NYTime>();
 ArrayList<Tweet> tweets = new ArrayList<Tweet>();
 ArrayList<Facebook> fbs = new ArrayList<Facebook>();
@@ -13,11 +14,15 @@ boolean twitter = false;
 boolean nytimesCurr, endOfNews;
 
 void setup() {
-  open(new String[] {
-    "cmd", "/c", "C:/Projects/ITP/ICM_Final/nytimes.bat"
+  try {
+    Process p = Runtime.getRuntime().exec("cmd /c C:/Projects/ITP/ICM_Final/nytimes.bat"    
+      );
+    p.waitFor();
+  } 
+  catch (Exception err) {
+    err.printStackTrace();
   }
-  );
-  delay(1000);
+
   textFile = loadStrings("nytimes.txt");
   for (int i=0; i<textFile.length; i+=2) {
     nyTimes.add(new NYTime(textFile[i], textFile[i+1], i));
@@ -28,11 +33,12 @@ void setup() {
   nytimesCurr = true;
   counter = nyTimes.size();
   endOfNews = false;
+  nytimesHeading = loadImage("nytimes_script.PNG");
 }
 
 void draw() {
   if (nytimesCurr) {
-    text("Pick a Story", 450, 50);
+    image(nytimesHeading, 450, 25);
   }
   if (currentObjs.size() != 0) {
     for (int i=0; i<counter; i++) {
@@ -75,7 +81,6 @@ void keyPressed() {
 
 void mouseClicked() {
   for (NYTime nyTime: nyTimes) {
-    // RUN ALL BATCH FILES
     if (nyTime.mouseOver(mouseX, mouseY)) {
       try {
         saveStrings("keywords.txt", nyTime.keywords);
@@ -88,8 +93,17 @@ void mouseClicked() {
       }
 
       textFile = loadStrings("tweets.txt");
+      int tweetCount = 0;
       for (int i=0; i<textFile.length-1; i++) {
-        tweets.add(new Tweet(textFile[i], i));
+        //println(textFile[i]);
+        if(textFile[i].equals("")){
+          continue;
+        } 
+        if(!textFile[i].contains("~")){
+          continue;
+        }
+        tweets.add(new Tweet(textFile[i], tweetCount));
+        tweetCount++;
       }
       counter = 1;
       background(64, 153, 255);
