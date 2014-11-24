@@ -38,7 +38,9 @@ void setup() {
 
 void draw() {
   if (nytimesCurr) {
+    background(255);
     image(nytimesHeading, 450, 25);
+    boxOver();
   }
   if (currentObjs.size() != 0) {
     for (int i=0; i<counter; i++) {
@@ -93,13 +95,16 @@ void mouseClicked() {
       }
 
       textFile = loadStrings("tweets.txt");
+      int counter = 12;
+      if (textFile.length-1 < 12) {
+        counter = textFile.length-1;
+      }
       int tweetCount = 0;
-      for (int i=0; i<textFile.length-1; i++) {
-        //println(textFile[i]);
-        if(textFile[i].equals("")){
+      for (int i=0; i<counter; i++) {
+        if (textFile[i].equals("")) {
           continue;
         } 
-        if(!textFile[i].contains("~")){
+        if (!textFile[i].contains("~")) {
           continue;
         }
         tweets.add(new Tweet(textFile[i], tweetCount));
@@ -109,6 +114,17 @@ void mouseClicked() {
       background(64, 153, 255);
       currentObjs = tweets;
       nytimesCurr = false;  
+      break;
+    }
+  }
+}
+
+void boxOver() {
+  for (NYTime nyTime : nyTimes) {
+    if (nyTime.mouseOver(mouseX, mouseY)) {
+      fill(255, 0, 0, 100);
+      noStroke();
+      rect(nyTime.loc.x, nyTime.loc.y, displayWidth/2-40, 100);
       break;
     }
   }

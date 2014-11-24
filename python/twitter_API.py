@@ -1,7 +1,7 @@
 from TwitterSearch import *
 
 file_keywords = open("keywords.txt")
-file_keys = open("C:/Users/Kat Sullivan/Documents/API_keys/twitter_oauth.txt")
+file_keys = open("API_keys/twitter_oauth.txt")
 new_keywords = []
 
 for line in file_keywords:
@@ -19,7 +19,7 @@ keys = keys.rstrip().split('\n')
 
 try:
     tso = TwitterSearchOrder() # create a TwitterSearchOrder object
-    tso.set_keywords(new_keywords[-2:]) # our keyword goes here
+    tso.set_keywords(new_keywords[-3:]) # our keyword goes here
     tso.set_language('en') # we want to see English tweets only
     tso.set_include_entities(False) # and don't give us all those entity information
     #tso.set_count(25) #Don't want to query 100 tweets

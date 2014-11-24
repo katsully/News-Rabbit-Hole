@@ -15,6 +15,12 @@ for stuff in all_articles:
 	keyword_str = ""
 	txt_file.write(stuff['headline']['main'].encode('utf-8') + "\n")
 	for keyword in stuff['keywords']:
+		if keyword['name'] == 'persons':
+			name = keyword['value'].split(",")
+			name.reverse()
+			name = (" ").join(name)
+			keyword_str += name[1:] + "/ "
+			continue
 		keyword_str += keyword['value'] + "/ "
 	txt_file.write(keyword_str[:-2])
 	txt_file.write("\n")

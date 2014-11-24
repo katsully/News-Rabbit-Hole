@@ -11,7 +11,7 @@ new_keywords = []
 
 for line in file_keywords:
     new_keywords.append(line.rstrip())
-file_key = open("C:/Users/Kat Sullivan/Documents/API_keys/facebook_key.txt")
+file_key = open("API_keys/facebook_key.txt")
 
 token = file_key.readline()
 

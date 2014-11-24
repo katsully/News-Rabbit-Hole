@@ -13,7 +13,10 @@ class NYTime extends NewsBlur {
       if (this.keywords[i].contains("Police Brutality")) {
         this.keywords[i] = "Police Brutality";
       }
-      if(this.keywords[i].contains("and")){
+      if (this.keywords[i].contains("and")) {
+        this.keywords[i] = this.keywords[i].split(" ")[0];
+      }
+      if (this.keywords[i].contains("(")) {
         this.keywords[i] = this.keywords[i].split(" ")[0];
       }
     }
