@@ -32,7 +32,7 @@ for i,post in enumerate(json_data['data']):
 		pic_file = open("data/image%i.jpg" %i, 'wb')
 		pic_file.write(urllib.urlopen(post['picture']).read())
 		pic_file.close()
-	if 'caption' in post: status_str += post['caption'] + "~"
+	#if 'caption' in post: status_str += post['caption'] + "~"
 	#if 'description' in post: status_str += post['description'] + "~"
 	if 'link' in post: status_str += post['link'] + "~"
 	if 'message' in post: status_str += post['message'] + "~"
