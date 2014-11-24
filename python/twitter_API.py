@@ -42,7 +42,7 @@ try:
         tweet_str += tweet['user']['screen_name'].encode('utf-8') + "~"
         tweet_str += tweet['text'].encode('utf-8') + "~"
         txt_file.write(tweet_str[:-1] + "\n")
-        if i == 15: break
+        if i == 25: break
 
     txt_file.close()
 
