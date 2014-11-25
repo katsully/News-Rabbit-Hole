@@ -6,7 +6,7 @@ import urllib
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
-file_keywords = open("keywords.txt")
+file_keywords = open("data/keywords.txt")
 new_keywords = []
 
 for line in file_keywords:

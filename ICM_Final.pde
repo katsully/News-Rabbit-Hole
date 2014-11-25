@@ -11,7 +11,7 @@ ArrayList<Facebook> fbs = new ArrayList<Facebook>();
 ArrayList<? extends NewsBlur> currentObjs;
 int counter;
 boolean nytimesCurr, pickSource, endOfNews;
-ArrayList<PImage> icons = new ArrayList<PImage>();
+ArrayList<Icon> icons = new ArrayList<Icon>();
 
 void setup() {
   try {
@@ -36,15 +36,14 @@ void setup() {
   endOfNews = false;
   nytimesHeading = loadImage("nytimes_script.PNG");
   facebook = loadImage("facebook.jpg");
-  icons.add(facebook);
+  icons.add(new Icon(20, 100, facebook, "facebook"));
   twitter = loadImage("twitter.jpg");
-  icons.add(twitter);
+  icons.add(new Icon(20+facebook.width, 100, twitter, "twitter"));
 }
 
 void draw() {
   if (pickSource) {
-    sourceScreen();
-    selectSource();
+    sourceScreen();    
   } else {
     if (nytimesCurr) {
       background(255);
@@ -71,25 +70,27 @@ void draw() {
 }
 
 void mouseClicked() {
-  println("end of news: " + endOfNews); 
   if (nytimesCurr) {
     for (NYTime nyTime: nyTimes) {
       if (nyTime.mouseOver(mouseX, mouseY)) {
-        saveStrings("keywords.txt", nyTime.keywords);      
+        saveStrings("data/keywords.txt", nyTime.keywords);      
         nytimesCurr = false;  
         pickSource = true;
         background(255);
         break;
       }
     }
+  } else if(pickSource) {
+    selectSource();    
   } else if (endOfNews) {
     if (mouseX >= 20 && mouseX <= 420 && mouseY >= 600 && mouseY <= 700) {
       pickSource = true;
       background(255);
-    } else if(mouseX >=450 && mouseX <= 850 && mouseY >= 600 & mouseY <= 700){
+    } else if (mouseX >=450 && mouseX <= 850 && mouseY >= 600 & mouseY <= 700) {
       nytimesCurr = true;
       background(255);
       currentObjs = nyTimes;
+      counter = nyTimes.size();
     }
   }
 }
@@ -109,7 +110,6 @@ void twitter() {
   try {
     Process p = Runtime.getRuntime().exec("cmd /c C:/Projects/ITP/ICM_Final/twitter.bat"
       );
-    println("called it");
     p.waitFor();
   } 
   catch (Exception err) {
@@ -132,7 +132,6 @@ void twitter() {
     tweets.add(new Tweet(textFile[i], tweetCount));
     tweetCount++;
   }
-  println("total tweets: " + tweets.size());
   counter = 1;
   background(64, 153, 255);
   currentObjs = tweets;
@@ -152,9 +151,7 @@ void facebook() {
     fbs.add(new Facebook(textFile[i], i));
   }
   counter = 1;
-  currentObjs = fbs;   
-
-  endOfNews = false;
+  currentObjs = fbs;  
   background(204);
 }
 
@@ -162,17 +159,27 @@ void facebook() {
 // Display the screen where a user selects a source
 void sourceScreen() {
   text("Pick a Source", 100, 50);
-  image(facebook, 20, 100);
-  image(twitter, 20+facebook.width, 100);
+  for (Icon icon : icons) {
+    icon.display();
+  }
 }
 
 // User selects a source()
 void selectSource() {
-  for (PImage icon : icons) {
-    if (mouseX >= 20+facebook.width && mouseX <= 20+facebook.width+icon.width && mouseY >= 100 && mouseY <= 100+icon.height) {
-      if (icon.equals(twitter)) {
+  for (Icon icon : icons) {
+    println("mousex " + mouseX + " mousey " + mouseY); 
+    if (mouseX >= icon.x && mouseX <= icon.x+icon.logo.width && mouseY >= icon.y && mouseY <= icon.y+icon.logo.height) {
+      println("x " + icon.x + " y " + icon.y + " title " + icon.title);
+      println("icon width" + icon.x+icon.logo.width);
+      if (icon.title.equals("twitter")) {
+        println("went to twitter anyway");
         pickSource = false;
         twitter();        
+        break;
+      } else if (icon.title.equals("facebook")) {
+        println("SURPRISE - went to facebook");
+        pickSource = false;
+        facebook();
         break;
       }
     }

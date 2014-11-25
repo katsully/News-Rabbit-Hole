@@ -1,6 +1,6 @@
 from TwitterSearch import *
 
-file_keywords = open("keywords.txt")
+file_keywords = open("data/keywords.txt")
 file_keys = open("API_keys/twitter_oauth.txt")
 new_keywords = []
 
