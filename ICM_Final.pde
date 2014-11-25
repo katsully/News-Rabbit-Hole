@@ -85,6 +85,7 @@ void mouseClicked() {
       }
     }
   } else if (pickSource) {
+    println("PICK SOURCE");
     selectSource();
   } else if (endOfNews || nyTimesShow) {
     if (nyTimesShow) {
@@ -97,7 +98,6 @@ void mouseClicked() {
       nytimesCurr = true;
       background(255);
       currentObjs = nyTimes;
-      println(nyTimes.size());
       counter = nyTimes.size();
     }
   }
@@ -115,6 +115,7 @@ void boxOver() {
 }
 
 void twitter() {
+  tweets.clear();
   try {
     Process p = Runtime.getRuntime().exec("cmd /c C:/Projects/ITP/ICM_Final/twitter.bat"
       );
