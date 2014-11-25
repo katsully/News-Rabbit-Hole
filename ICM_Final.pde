@@ -13,8 +13,7 @@ int counter;
 boolean nytimesCurr, pickSource, endOfNews;
 ArrayList<Icon> icons = new ArrayList<Icon>();
 NYTime article;
-// Boolean to show NYTimes Article
-boolean nyTimesShow = false;
+boolean nyTimesShow = false;  // Boolean to show NYTimes Article
 
 void setup() {
   try {
@@ -172,6 +171,7 @@ void nytimes(NYTime article) {
 
 // Display the screen where a user selects a source (facebook, twitter, etc)
 void sourceScreen() {
+  fill(0);
   text("Pick a Source", 100, 50);
   for (Icon icon : icons) {
     icon.display();

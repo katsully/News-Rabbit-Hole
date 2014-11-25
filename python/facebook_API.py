@@ -41,7 +41,8 @@ for i,post in enumerate(json_data['data']):
 		status_str += post['link'] + "`"
 	else: 
 		status_str += " `"
-	if 'status' in post: status_str += post['status']
+	if 'message' in post and len(post['message']) < 300: status_str += post['message']
 	txt_file.write(status_str + "\n")
+	if i==10: break
 
 txt_file.close()
