@@ -57,7 +57,7 @@ void draw() {
       image(nytimesHeading, 450, 25);
       boxOver();
     } 
-    if (!pickSource && currentObjs.size() != 0) {      
+    if (!pickSource && currentObjs.size() != 0) {
       for (int i=0; i<counter; i++) {
         currentObjs.get(i).display();
       }      
@@ -74,7 +74,6 @@ void draw() {
 }
 
 void mouseClicked() {
-  println("Mouse clicked");
   if (nytimesCurr) {
     for (NYTime nyTime: nyTimes) {
       if (nyTime.mouseOver(mouseX, mouseY)) {
@@ -99,6 +98,7 @@ void mouseClicked() {
       nytimesCurr = true;
       background(255);
       currentObjs = nyTimes;
+      println(nyTimes.size());
       counter = nyTimes.size();
     }
   }
@@ -190,7 +190,6 @@ void selectSource() {
         facebook();
         break;
       } else if (icon.title.equals("nytimes")) {
-        currentObjs.clear();
         nyTimesShow = true;        
         background(255);
         break;
