@@ -27,15 +27,21 @@ nums = range(1,100)
 
 for i,post in enumerate(json_data['data']):
 	status_str = ""
-	status_str += post['from']['name'] + "~"
-	if 'picture' in post: 
+	status_str += post['from']['name'] + "`"
+	if 'picture' in post:
+		status_str += 'yes' + '`'
 		pic_file = open("data/image%i.jpg" %i, 'wb')
 		pic_file.write(urllib.urlopen(post['picture']).read())
 		pic_file.close()
+	else:
+		status_str += 'no' + '`'
 	#if 'caption' in post: status_str += post['caption'] + "~"
 	#if 'description' in post: status_str += post['description'] + "~"
-	if 'link' in post: status_str += post['link'] + "~"
-	if 'message' in post: status_str += post['message'] + "~"
-	txt_file.write(status_str[:-1] + "\n")
+	if 'link' in post: 
+		status_str += post['link'] + "`"
+	else: 
+		status_str += " `"
+	if 'message' in post: status_str += post['message']
+	txt_file.write(status_str + "\n")
 
 txt_file.close()

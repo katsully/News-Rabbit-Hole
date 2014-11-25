@@ -4,7 +4,7 @@
 import java.util.Collections;
 
 String[] textFile;
-PImage nytimesHeading, facebook, twitter;
+PImage nytimesHeading, facebook, twitter, newYorkTimes;
 ArrayList<NYTime> nyTimes = new ArrayList<NYTime>();
 ArrayList<Tweet> tweets = new ArrayList<Tweet>();
 ArrayList<Facebook> fbs = new ArrayList<Facebook>();
@@ -12,6 +12,8 @@ ArrayList<? extends NewsBlur> currentObjs;
 int counter;
 boolean nytimesCurr, pickSource, endOfNews;
 ArrayList<Icon> icons = new ArrayList<Icon>();
+NYTime article;
+boolean nyTimesShow = false;
 
 void setup() {
   try {
@@ -39,24 +41,25 @@ void setup() {
   icons.add(new Icon(20, 100, facebook, "facebook"));
   twitter = loadImage("twitter.jpg");
   icons.add(new Icon(20+facebook.width, 100, twitter, "twitter"));
+  newYorkTimes = loadImage("nytimes.jpg");
+  icons.add(new Icon(20+facebook.width+twitter.width,100, newYorkTimes, "nytimes"));
 }
 
 void draw() {
   if (pickSource) {
     sourceScreen();    
+  } else if(nyTimesShow) {
+    nytimes(article);
   } else {
     if (nytimesCurr) {
       background(255);
       image(nytimesHeading, 450, 25);
       boxOver();
     } 
-    if (!pickSource && currentObjs.size() != 0) {
-      if (!nytimesCurr) {    
-        background(64, 153, 255);
-      }
+    if (!pickSource && currentObjs.size() != 0) {      
       for (int i=0; i<counter; i++) {
         currentObjs.get(i).display();
-      }
+      }      
       if (!nytimesCurr) {
         if (frameCount % 60 == 0 && counter < currentObjs.size()) { 
           counter++;
@@ -73,6 +76,7 @@ void mouseClicked() {
   if (nytimesCurr) {
     for (NYTime nyTime: nyTimes) {
       if (nyTime.mouseOver(mouseX, mouseY)) {
+        article = nyTime;
         saveStrings("data/keywords.txt", nyTime.keywords);      
         nytimesCurr = false;  
         pickSource = true;
@@ -155,6 +159,11 @@ void facebook() {
   background(204);
 }
 
+void nytimes(NYTime article){
+  article.fulldisplay();
+  drawBoxes();
+}
+
 
 // Display the screen where a user selects a source
 void sourceScreen() {
@@ -167,19 +176,18 @@ void sourceScreen() {
 // User selects a source()
 void selectSource() {
   for (Icon icon : icons) {
-    println("mousex " + mouseX + " mousey " + mouseY); 
     if (mouseX >= icon.x && mouseX <= icon.x+icon.logo.width && mouseY >= icon.y && mouseY <= icon.y+icon.logo.height) {
-      println("x " + icon.x + " y " + icon.y + " title " + icon.title);
-      println("icon width" + icon.x+icon.logo.width);
-      if (icon.title.equals("twitter")) {
-        println("went to twitter anyway");
-        pickSource = false;
+      pickSource = false;
+      if (icon.title.equals("twitter")) {        
         twitter();        
         break;
-      } else if (icon.title.equals("facebook")) {
-        println("SURPRISE - went to facebook");
-        pickSource = false;
+      } else if (icon.title.equals("facebook")) {        
         facebook();
+        break;
+      } else if(icon.title.equals("nytimes")){
+        currentObjs.clear();
+        nyTimesShow = true;        
+        background(255);
         break;
       }
     }

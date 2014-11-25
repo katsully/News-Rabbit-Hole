@@ -9,17 +9,17 @@ class Facebook extends NewsBlur {
   String link = "";
   String message = "";
   String[] info = {
-    name, caption, link, message
+    name, picture_str, link, message
   };
 
   Facebook(String status, int location) {
     super();
-    font = loadFont("ArialNarrow-14.vlw");
-    String[] data = split(status, "~");
-    for (int i=0; i<data.length-1; i++) {
+    font = createFont("Arial Narrow", 14);
+    String[] data = split(status, "`");
+    for (int i=0; i<data.length; i++) {
       info[i] = data[i];
     }    
-    loc = new PVector(20, location * 120 + 30);
+    loc = new PVector(20, location * 170 + 30);
     
     File file = new File(dataPath("image" + location + ".jpg"));
 
@@ -31,12 +31,15 @@ class Facebook extends NewsBlur {
 
   void display() {
     fill(0);
-    String status = info[0] + "\n" + info[1] + "\n" + info[2] + "\n" + info[3];
-    if (pic != null) {
-      image(pic, loc.x, loc.y);
-      text(status, loc.x, loc.y+pic.height);
-    } else {
-      text(status, loc.x, loc.y);
-    }    
+    textFont(font);
+    String status = info[0] + "\n" + info[2] + "\n" + info[3];
+    println(info[3]);    
+    text(status, loc.x, loc.y, 800, 200);
+    // if (info[1]) {
+    //   image(pic, loc.x, loc.y);
+    //   text(status, loc.x, loc.y+pic.height);
+    // } else {
+    //   text(status, loc.x, loc.y);
+    // }    
   }
 }

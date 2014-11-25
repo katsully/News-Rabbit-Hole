@@ -8,7 +8,7 @@ date_str = date.strftime('%Y%m%d')
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
-file_keywords = open("keywords.txt")
+file_keywords = open("data/keywords.txt")
 new_keywords = []
 
 for line in file_keywords:
@@ -28,7 +28,11 @@ txt_file = open("data/nytimes.txt", "w")
 
 for stuff in all_articles:
 	keyword_str = ""
-	txt_file.write(stuff['headline']['main'].encode('utf-8') + "\n")
+	main_str = ""
+	main_str += stuff['headline']['main'].encode('utf-8') + "`"
+	main_str += stuff['lead_paragraph']
+	#if 'byline' in stuff: main_str += stuff['byline']['original']
+	txt_file.write(main_str + "\n")
 	for keyword in stuff['keywords']:
 		if keyword['name'] == 'persons':
 			name = keyword['value'].split(",")
@@ -38,6 +42,6 @@ for stuff in all_articles:
 			continue
 		keyword_str += keyword['value'] + "/ "
 	txt_file.write(keyword_str[:-2])
-	txt_file.write("\n")
+	txt_file.write("\n")	
 
 txt_file.close()

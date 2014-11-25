@@ -2,12 +2,18 @@ class NYTime extends NewsBlur {
 
   String headline;
   String[] keywords;
-  PFont font;
+  String leadParagraph;
+  String author;
+  PFont headlineFont;
+  PFont articleFont;
 
   NYTime(String headline, String keywords, int location) {
     super();
-    font = loadFont("Georgia-Italic-34.vlw");
-    this.headline = headline;
+    headlineFont = createFont("Georgia Italic", 34);
+    articleFont = createFont("Georgia Italic", 16);
+    String headers[] = split(headline, "`");
+    this.headline = headers[0];
+    this.leadParagraph = headers[1];
     this.keywords = split(keywords, "/ ");   
     for (int i=0; i<this.keywords.length; i++) {
       if (this.keywords[i].contains("Police Brutality")) {
@@ -19,7 +25,7 @@ class NYTime extends NewsBlur {
       if (this.keywords[i].contains("(")) {
         this.keywords[i] = this.keywords[i].split(" ")[0];
       }
-    }
+    }    
     if (location%4==0) {
       loc.x = displayWidth/2;
       loc.y = (location-2) * 30 + 170;
@@ -30,9 +36,21 @@ class NYTime extends NewsBlur {
   }
 
   void display() {
-    textFont(font, 34);
+    textFont(headlineFont);
     fill(0);
     text(headline, loc.x, loc.y, displayWidth/2-40, 100);
+  }
+  
+  void fulldisplay(){
+    textFont(headlineFont);
+    fill(0);
+    text(headline, 20, 20, displayWidth-40, 100);
+    textSize(11);
+    stroke(100);
+    line(20, 140, displayWidth-40, 140);
+    //text(author, 20, 160);
+    textFont(articleFont);
+    text(leadParagraph, 100, 180, displayWidth/2, 300);
   }
 
   boolean mouseOver(int mousex, int mousey) {
