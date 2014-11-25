@@ -13,6 +13,7 @@ int counter;
 boolean nytimesCurr, pickSource, endOfNews;
 ArrayList<Icon> icons = new ArrayList<Icon>();
 NYTime article;
+// Boolean to show NYTimes Article
 boolean nyTimesShow = false;
 
 void setup() {
@@ -42,13 +43,13 @@ void setup() {
   twitter = loadImage("twitter.jpg");
   icons.add(new Icon(20+facebook.width, 100, twitter, "twitter"));
   newYorkTimes = loadImage("nytimes.jpg");
-  icons.add(new Icon(20+facebook.width+twitter.width,100, newYorkTimes, "nytimes"));
+  icons.add(new Icon(20+facebook.width+twitter.width, 100, newYorkTimes, "nytimes"));
 }
 
 void draw() {
   if (pickSource) {
-    sourceScreen();    
-  } else if(nyTimesShow) {
+    sourceScreen();
+  } else if (nyTimesShow) {
     nytimes(article);
   } else {
     if (nytimesCurr) {
@@ -73,6 +74,7 @@ void draw() {
 }
 
 void mouseClicked() {
+  println("Mouse clicked");
   if (nytimesCurr) {
     for (NYTime nyTime: nyTimes) {
       if (nyTime.mouseOver(mouseX, mouseY)) {
@@ -84,9 +86,12 @@ void mouseClicked() {
         break;
       }
     }
-  } else if(pickSource) {
-    selectSource();    
-  } else if (endOfNews) {
+  } else if (pickSource) {
+    selectSource();
+  } else if (endOfNews || nyTimesShow) {
+    if (nyTimesShow) {
+      nyTimesShow = false;
+    }
     if (mouseX >= 20 && mouseX <= 420 && mouseY >= 600 && mouseY <= 700) {
       pickSource = true;
       background(255);
@@ -159,13 +164,13 @@ void facebook() {
   background(204);
 }
 
-void nytimes(NYTime article){
+void nytimes(NYTime article) {
   article.fulldisplay();
   drawBoxes();
 }
 
 
-// Display the screen where a user selects a source
+// Display the screen where a user selects a source (facebook, twitter, etc)
 void sourceScreen() {
   text("Pick a Source", 100, 50);
   for (Icon icon : icons) {
@@ -173,7 +178,7 @@ void sourceScreen() {
   }
 }
 
-// User selects a source()
+// User selects a source (facebook, twitter, etc)
 void selectSource() {
   for (Icon icon : icons) {
     if (mouseX >= icon.x && mouseX <= icon.x+icon.logo.width && mouseY >= icon.y && mouseY <= icon.y+icon.logo.height) {
@@ -184,7 +189,7 @@ void selectSource() {
       } else if (icon.title.equals("facebook")) {        
         facebook();
         break;
-      } else if(icon.title.equals("nytimes")){
+      } else if (icon.title.equals("nytimes")) {
         currentObjs.clear();
         nyTimesShow = true;        
         background(255);
@@ -194,6 +199,7 @@ void selectSource() {
   }
 }
 
+// draw purple boxes that appear at end of different news screens
 void drawBoxes() {
   fill(155, 89, 187);
   noStroke();

@@ -41,7 +41,7 @@ for i,post in enumerate(json_data['data']):
 		status_str += post['link'] + "`"
 	else: 
 		status_str += " `"
-	if 'message' in post: status_str += post['message']
+	if 'status' in post: status_str += post['status']
 	txt_file.write(status_str + "\n")
 
 txt_file.close()

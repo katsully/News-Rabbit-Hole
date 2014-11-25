@@ -10,7 +10,7 @@ class NYTime extends NewsBlur {
   NYTime(String headline, String keywords, int location) {
     super();
     headlineFont = createFont("Georgia Italic", 34);
-    articleFont = createFont("Georgia Italic", 16);
+    articleFont = createFont("Georgia Italic", 22);
     String headers[] = split(headline, "`");
     this.headline = headers[0];
     this.leadParagraph = headers[1];
